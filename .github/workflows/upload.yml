@@ -26,4 +26,4 @@ jobs:
         run: |
           gcloud config set artifacts/repository gcp-repo
           gcloud config set artifacts/location us-east1
-          gcloud artifacts yum upload --source=*.rpm
+          for file in $(find . -maxdepth 1 -name '*.rpm'); do gcloud artifacts yum upload --source="$file"; done
