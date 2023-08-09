@@ -27,11 +27,11 @@ jobs:
         run: |
           mkdir -p ~/.ssh/
           cat >>~/.ssh/config <<END
-            Host server
-              HostName $SSH_HOST
-              User $SSH_USER
-              Port $SSH_PORT
-              StrictHostKeyChecking yes
-            END
+          Host server
+            HostName $SSH_HOST
+            User $SSH_USER
+            Port $SSH_PORT
+            StrictHostKeyChecking yes
+          END
       - name: Print ssh-add identities
         run: ssh server ls
