@@ -41,8 +41,8 @@ jobs:
         env:
           SERVER_NAME: ${{ steps.setup_ssh_host.outputs.server_name }}
         run: |
-          SERVER_PORT=8888
-          ssh -fN -L $SERVER_PORT:127.0.0.1:80 server
+          SERVER_PORT=8055
+          ssh -fN -L $SERVER_PORT:127.0.0.1:8055 server
           echo "server_port=$SERVER_PORT\n" >> $GITHUB_OUTPUT
       - name: Print ssh-add identities
         run: ssh server ls
