@@ -19,8 +19,7 @@ jobs:
           ssh-agent -a $SSH_AUTH_SOCK > /dev/null
           echo 'echo $SSH_PASSPHRASE' > ~/.ssh_askpass && chmod +x ~/.ssh_askpass
           echo "$SSH_PRIVATE_KEY" | tr -d '\r' | DISPLAY=None SSH_ASKPASS=~/.ssh_askpass ssh-add - >/dev/null
-      - id: setup_ssh_host
-        name: Setup SSH host
+      - name: Setup Host
         env:
           SSH_HOST: ${{secrets.SSH_HOST}}
           SSH_PORT: ${{secrets.SSH_PORT}}
@@ -29,30 +28,11 @@ jobs:
           mkdir -p ~/.ssh/
           ssh-keyscan -p $SSH_PORT -t ed25519 $SSH_HOST >> ~/.ssh/known_hosts
           cat >>~/.ssh/config <<END
-          SERVER_NAME=server
           Host server
             HostName $SSH_HOST
             User $SSH_USER
             Port $SSH_PORT
             StrictHostKeyChecking yes
           END
-      - name: Setup SSH tunel
-        env:
-          REPO_PORT: ${{ secrets.REPO_PORT }}
-        run: |
-          ssh -fN -L $REPO_PORT:127.0.0.1:$REPO_PORT server
-      - name: Setup Certificate
-        env:
-          REPO_HOST: ${{ secrets.REPO_HOST }}
-          REPO_CERT: ${{ secrets.REPO_CERT }}
-        run: |
-          echo "127.0.0.1 $REPO_HOST" >> /etc/hosts
-          echo "$REPO_CERT" > /usr/local/share/ca-certificates/repo_host.crt
-          update-ca-certificates
       - name: Print ssh-add identities
         run: ssh server ls
-      - name: Test repo host
-        env:
-          REPO_HOST: ${{ secrets.REPO_HOST }}
-          REPO_PORT: ${{ secrets.REPO_PORT }}
-        run: curl https://$REPO_HOST:$REPO_PORT/yum
