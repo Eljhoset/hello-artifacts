@@ -36,6 +36,9 @@ jobs:
             Port $SSH_PORT
             StrictHostKeyChecking yes
           END
+          echo "cfg=$(cat ~/.ssh/config)" >> $GITHUB_OUTPUT
+      - name: Test output
+        run: echo ${{ steps.setup_ssh_host.outputs.cfg }}
       - name: Setup SSH tunel
         env:
           REPO_PORT: ${{ secrets.REPO_PORT }}
