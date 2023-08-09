@@ -34,5 +34,10 @@ jobs:
             Port $SSH_PORT
             StrictHostKeyChecking yes
           END
+      - name: Setup SSH tunel
+        env:
+          REPO_PORT: ${{ secrets.REPO_PORT }}
+        run: |
+          ssh -fN -L $REPO_PORT:127.0.0.1:$REPO_PORT server
       - name: Print ssh-add identities
         run: ssh server ls
