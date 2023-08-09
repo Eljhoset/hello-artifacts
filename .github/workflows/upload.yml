@@ -44,7 +44,7 @@ jobs:
           REPO_HOST: ${{ secrets.REPO_HOST }}
           REPO_CERT: ${{ secrets.REPO_CERT }}
         run: |          
-          sudo sh -c "echo '127.0.0.1 $REPO_HOST' >> /etc/hosts"
+          sudo echo "127.0.0.1 $REPO_HOST" >> /etc/hosts
           echo "$REPO_CERT" > cert.crt
           sudo cp cert.crt /usr/local/share/ca-certificates/
           sudo update-ca-certificates
