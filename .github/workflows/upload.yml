@@ -44,9 +44,8 @@ jobs:
           REPO_HOST: ${{ secrets.REPO_HOST }}
           REPO_CERT: ${{ secrets.REPO_CERT }}
         run: |          
-          sudo echo "127.0.0.1 $REPO_HOST" >> /etc/hosts
-          echo "$REPO_CERT" > cert.crt
-          sudo cp cert.crt /usr/local/share/ca-certificates/
+          sudo sh -c "echo '127.0.0.1 $REPO_HOST' >> /etc/hosts"
+          sudo sh -c "echo '$REPO_CERT' > /usr/local/share/ca-certificates/repo.crt"
           sudo update-ca-certificates
       - name: Print ssh-add identities
         run: ssh server ls
