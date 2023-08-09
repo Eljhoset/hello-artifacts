@@ -40,6 +40,7 @@ jobs:
         env:
           REPO_PORT: ${{ secrets.REPO_PORT }}
         run: |
+          cat ~/.ssh/config
           ssh -fN -L $SERVER_PORT:127.0.0.1:$REPO_PORT server
       - name: Setup Certificate
         env:
