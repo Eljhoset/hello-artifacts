@@ -28,7 +28,8 @@ jobs:
           mkdir -p ~/.ssh/
           ssh-keyscan -p $SSH_PORT -t ed25519 $SSH_HOST >> ~/.ssh/known_hosts
           cat >>~/.ssh/config <<END
-          Host server
+          SERVER_NAME=server
+          Host $SERVER_NAME
             HostName $SSH_HOST
             User $SSH_USER
             Port $SSH_PORT
