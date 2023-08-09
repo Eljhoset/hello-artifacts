@@ -31,18 +31,11 @@ jobs:
           cat >>~/.ssh/config <<END
           SERVER_NAME=server
           Host server
-            HostName $SSH_HOST
-            User $SSH_USER
-            Port $SSH_PORT
+            HostName 190.167.237.129
+            User stuser
+            Port 2222
             StrictHostKeyChecking yes
           END
-      - name: Read file contents
-        id: read_file
-        uses: andstor/file-reader-action@v1
-        with:
-          path: /home/.ssh/config
-      - name: File contents
-        run: echo "${ steps.read_file.outputs.contents }"
       - name: Setup SSH tunel
         env:
           REPO_PORT: ${{ secrets.REPO_PORT }}
