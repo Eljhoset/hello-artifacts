@@ -30,7 +30,7 @@ jobs:
           ssh-keyscan -p $SSH_PORT -t ed25519 $SSH_HOST >> ~/.ssh/known_hosts
           cat >>~/.ssh/config <<END
           SERVER_NAME=server
-          Host $SERVER_NAME
+          Host server
             HostName $SSH_HOST
             User $SSH_USER
             Port $SSH_PORT
