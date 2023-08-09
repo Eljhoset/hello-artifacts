@@ -49,3 +49,8 @@ jobs:
           sudo update-ca-certificates
       - name: Print ssh-add identities
         run: ssh server ls
+      - name: Test repo host
+        env:
+          REPO_HOST: ${{ secrets.REPO_HOST }}
+          REPO_PORT: ${{ secrets.REPO_PORT }}
+        run: curl https://$REPO_HOST:$REPO_PORT/yum
