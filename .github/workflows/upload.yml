@@ -39,5 +39,13 @@ jobs:
           REPO_PORT: ${{ secrets.REPO_PORT }}
         run: |
           ssh -fN -L $REPO_PORT:127.0.0.1:$REPO_PORT server
+      - name: Setup Certificate
+        env:
+          REPO_HOST: ${{ secrets.REPO_HOST }}
+          REPO_CERT: ${{ secrets.REPO_CERT }}
+        run: |
+          echo "127.0.0.1 $REPO_HOST" >> /etc/hosts
+          echo "$REPO_CERT" > /usr/local/share/ca-certificates/repo_host.crt
+          update-ca-certificates
       - name: Print ssh-add identities
         run: ssh server ls
