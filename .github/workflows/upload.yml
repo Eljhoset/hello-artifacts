@@ -40,9 +40,23 @@ jobs:
       - name: Setup SSH tunel
         env:
           SERVER_NAME: ${{ steps.setup_ssh_host.outputs.server_name }}
+          REPO_PORT: ${{ secrets.REPO_PORT }}
         run: |
           SERVER_PORT=8055
-          ssh -fN -L $SERVER_PORT:127.0.0.1:8055 server
+          ssh -fN -L $SERVER_PORT:127.0.0.1:$REPO_PORT server
           echo "server_port=$SERVER_PORT\n" >> $GITHUB_OUTPUT
+      - name: Setup Certificate
+        env:
+          REPO_HOST: ${{ secrets.REPO_HOST }}
+          REPO_CERT: ${{ secrets.REPO_CERT }}
+        run: |
+          echo "127.0.0.1 $REPO_HOST" >> /etc/hosts
+          echo "$REPO_CERT" > /usr/local/share/ca-certificates/repo_host.crt
+          update-ca-certificates
       - name: Print ssh-add identities
         run: ssh server ls
+      - name: Test repo host
+        env:
+          REPO_HOST: ${{ secrets.REPO_HOST }}
+          REPO_PORT: ${{ secrets.REPO_PORT }}
+        run: curl https://$REPO_HOST:$REPO_PORT/yum
