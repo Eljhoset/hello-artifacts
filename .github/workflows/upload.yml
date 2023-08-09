@@ -30,7 +30,7 @@ jobs:
           ssh-keyscan -p $SSH_PORT -t ed25519 $SSH_HOST >> ~/.ssh/known_hosts
           cat >>~/.ssh/config <<END
           SERVER_NAME=server
-          Host server
+          Host $SERVER_NAME
             HostName $SSH_HOST
             User $SSH_USER
             Port $SSH_PORT
@@ -40,9 +40,7 @@ jobs:
         env:
           REPO_PORT: ${{ secrets.REPO_PORT }}
         run: |
-          SERVER_PORT=8055
           ssh -fN -L $SERVER_PORT:127.0.0.1:$REPO_PORT server
-          echo "server_port=$SERVER_PORT\n" >> $GITHUB_OUTPUT
       - name: Setup Certificate
         env:
           REPO_HOST: ${{ secrets.REPO_HOST }}
