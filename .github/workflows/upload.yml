@@ -31,9 +31,9 @@ jobs:
           cat >>~/.ssh/config <<END
           SERVER_NAME=server
           Host server
-            HostName 190.167.237.129
-            User stuser
-            Port 2222
+            HostName $SSH_HOST
+            User $SSH_USER
+            Port $SSH_PORT
             StrictHostKeyChecking yes
           END
       - name: Setup SSH tunel
