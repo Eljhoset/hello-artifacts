@@ -36,10 +36,8 @@ jobs:
             Port $SSH_PORT
             StrictHostKeyChecking yes
           END
-          echo "server_name=$SERVER_NAME\n" >> $GITHUB_OUTPUT
       - name: Setup SSH tunel
         env:
-          SERVER_NAME: ${{ steps.setup_ssh_host.outputs.server_name }}
           REPO_PORT: ${{ secrets.REPO_PORT }}
         run: |
           SERVER_PORT=8055
